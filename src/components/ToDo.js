@@ -13,7 +13,7 @@ function ToDo({ text, onBtnClick, id }) {
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
-  console.log(ownProps);
+  // ToDo 라는 놈이 받는 추가 props가 ownProps로 들어옴
   return {
     onBtnClick: () => dispatch(actionCreators.deleteToDo(ownProps.id)),
   };
