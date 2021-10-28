@@ -1,34 +1,30 @@
 import { createStore } from "redux";
-import { createAction, createReducer } from "@reduxjs/toolkit";
+import {
+  configureStore,
+  createSlice,
+  getDefaultMiddleware,
+} from "@reduxjs/toolkit";
+import logger from "redux-logger";
 
-const addToDo = createAction("ADD");
-const deleteToDo = createAction("DELETE");
-
-// const reducer = (state = [], action) => {
-//   switch (action.type) {
-//     case addToDo.type:
-//       return [{ text: action.payload, id: Date.now() }, ...state];
-//     case deleteToDo.type:
-//       return state.filter((toDo) => toDo.id !== action.payload);
-//   }
-
-//   return state;
-// };
-
-const reducer = createReducer([], {
-  [addToDo]: (state, action) => {
-    state.push({ id: Date.now(), text: action.payload });
-  },
-  [deleteToDo]: (state, action) => {
-    return state.filter((toDo) => toDo.id !== action.payload);
+const toDos = createSlice({
+  name: "toDosReducer",
+  initialState: [],
+  reducers: {
+    add: (state, action) => {
+      state.push({ id: Date.now(), text: action.payload });
+    },
+    minus: (state, action) => {
+      return state.filter((toDo) => toDo.id !== action.payload);
+    },
   },
 });
 
-const store = createStore(
-  reducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+const store = configureStore({
+  reducer: toDos.reducer,
+  devTools: process.env.NODE_ENV !== `production`,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+});
 
 export default store;
 
-export const actionCreators = { addToDo, deleteToDo };
+export const { add, minus } = toDos.actions;
