@@ -14,7 +14,7 @@ function ToDo({ text, onBtnClick, id }) {
 
 function mapDispatchToProps(dispatch, ownProps) {
   // ToDo 라는 놈이 받는 추가 props가 ownProps로 들어옴
-  console.log(ownProps);
+  console.log(ownProps); // mapDispatchToProps의 ownProps는 connect로 연결되는 컴포넌트에 전달되는 prop정보가 들어있다.
   return {
     onBtnClick: () => dispatch(actionCreators.deleteToDo(ownProps.id)),
   };
